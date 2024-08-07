@@ -31,10 +31,11 @@ function App() {
       <div className="container">
         <div className="top">
           <div className="location">
-            <p>Soweto</p>
+            <p>{data.name}</p>
           </div>
           <div className="temp">
-            <h1>60*F</h1>
+            
+            <h1>{data.main.temp} </h1>
           </div>
           <div className="description">
             <p>Clouds</p>
@@ -47,7 +48,7 @@ function App() {
           </div>
           <div className="humidity">
             <p className="bold">20%</p>
-            <p>Humidity</p>
+            {/* <p>{data.main.humidity}</p> */}
           </div>
           <div className="wind">
             <p className="bold">44km/h</p>
