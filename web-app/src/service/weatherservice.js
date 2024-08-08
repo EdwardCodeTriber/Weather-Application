@@ -62,8 +62,16 @@ const formatCurrent = (data) => {
 };
 
 const formatWeather = (secs, offset, data) =>{
-    const hozz
-    data.filter(f =>fdt )
+    const hourly =
+    data.filter(f =>f.dt > secs )
+    .slice(0, 5)
+    .map(f => ({
+        temp: f.main.temp,
+        title: formatTime(f.dt, offset, "hh:mm a"),
+        date: f.dt_txt,
+    }));
+
+    return{hourly}
 }
 
 const getFormat = async (searchParams) => {
@@ -74,7 +82,7 @@ const {dt, lat , lon, timezone} = formatData;
 const formatForecast = await getApiWeatherData('forecast', {lat, lon, units: searchParams.units,}).then
 (d => formatForecast(dt, timezone, d.list))
 
-  return { ...formatData };
+  return { ...formatData, ...formatWeather };
 };
 
 
