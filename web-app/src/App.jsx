@@ -7,6 +7,8 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
+import getApiWeatherData from "./service/weatherservice";
+import getFormat from "./service/weatherservice";
 
 function App() {
   //usestates to hold data on searched location
@@ -31,6 +33,12 @@ function App() {
   ];
 
   /////////////////////////
+  const getWeather = async () => {
+    const data = await getFormat({ q: "Soweto" });
+    console.log(data);
+  };
+
+  getWeather();
 
   // function to take searched location
   const searchLocation = (e) => {
