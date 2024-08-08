@@ -34,25 +34,28 @@ function App() {
             <p>{data.name}</p>
           </div>
           <div className="temp">
-            
-            <h1>{data.main.temp} </h1>
+            {data.main ? <h1>{data.main.temp}</h1> : null}
+            {/* <h1>{data.main.temp}</h1>   makes the display disapper*/}
           </div>
           <div className="description">
+            {data.weather ? <p>{data.weather[0].main}</p> : null}
             <p>Clouds</p>
           </div>
         </div>
         <div className="bottom">
           <div className="feels">
-            <p className="bold">60*F</p>
-            <p>Temperature</p>
+            <p>Feels like</p>
+            {data.main ? (
+              <p className="bold">{data.main.feels_like}°C</p>
+            ) : null}
           </div>
           <div className="humidity">
-            <p className="bold">20%</p>
-            {/* <p>{data.main.humidity}</p> */}
+            <p>Humidity</p>
+            {data.main ? <p className="bold">{data.main.humidity}</p> : null}
           </div>
           <div className="wind">
-            <p className="bold">44km/h</p>
             <p>Wind speed</p>
+            {data.wind ? <p className="bold">{data.wind.speed}km/h</p> : null}
           </div>
         </div>
       </div>
