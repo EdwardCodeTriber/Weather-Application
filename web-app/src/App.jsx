@@ -6,26 +6,39 @@ import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function App() {
+  //usestates to hold data on searched location
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9`;
 
   const [activetheme, setActiveTheme] = useState("");
-  const handleTheme = (theme) =>{
+  const handleTheme = (theme) => {
     document.body.style.background = theme;
     setActiveTheme(theme);
-  }
+  };
 
   const themes = [
-    {theme: ""}
-  ]
+    { theme: "Blue.jpg" },
+    { theme: "clear.jpg" },
+    { theme: "Blue.jpg" },
+    { theme: "grass.jpg" },
+    { theme: "mist.jpg" },
+    { theme: "rain.jpg" },
+    { theme: "snow.jpg" },
+  ];
 
+  /////////////////////////
+
+  // function to take searched location
   const searchLocation = (e) => {
     if (e.key === "Enter") {
+      // used axios to get url data object
       axios.get(url).then((Response) => {
         setData(Response.data);
+        // see results on the data received on search
         console.log(Response.data);
       });
       setLocation("");
@@ -38,6 +51,7 @@ function App() {
         <Paper
           // onSubmit={searchLocation}
           component="paper"
+          elevation={12}
           sx={{
             p: "2px 4px",
             display: "flex",
@@ -47,6 +61,17 @@ function App() {
             background: "rgba(80, 80, 80, 0.8)",
           }}
         >
+          <IconButton sx={{ p: "10px" }} aria-label="menu">
+            {themes.map(({ theme }) => {
+              <span
+                key={theme}
+                className={activetheme === theme ? "active" : ""}
+                style={{ App: theme }}
+                onClick={() => handleTheme(theme)}
+              ></span>;
+            })}
+            <MenuIcon />
+          </IconButton>
           <InputBase
             sx={{ ml: 1, flex: 1, color: "white" }}
             placeholder="Search location"
@@ -70,10 +95,13 @@ function App() {
           </div>
           <div className="temp">
             {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}
+            {data.timezone ? <p>{data.timezone}</p> : null}
             {/* <h1>{data.main.temp}</h1>   makes the display disapper*/}
           </div>
           <div className="description">
+            {/* Print details of specified data from the url */}
             {data.weather ? <p>{data.weather[0].main}</p> : null}
+            {data.weather ? <p>{data.weather[0].description}</p> : null}
           </div>
         </div>
         {data.name != undefined && (
