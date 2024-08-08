@@ -57,33 +57,46 @@ const formatCurrent = (data) => {
     dt,
     timezone,
     lat,
-    lon
+    lon,
   };
 };
 
-const formatWeather = (secs, offset, data) =>{
-    const hourly =
-    data.filter(f =>f.dt > secs )
-    .slice(0, 5)
-    .map(f => ({
-        temp: f.main.temp,
-        title: formatTime(f.dt, offset, "hh:mm a"),
-        date: f.dt_txt,
+const formatWeather = (secs, offset, data) => {
+  const hourly = data
+    .filter((f) => f.dt > secs)
+
+    .map((f) => ({
+      temp: f.main.temp,
+      title: formatTime(f.dt, offset, "hh:mm a"),
+      icon: iconurl(f.weather[0].icon),
+      date: f.dt_txt,
+    }))
+    .slice(0, 5);
+
+  const daily = data
+    .filter((f) => f.dt_txt.slice(-8) === "00:00:00")
+    .map((f) => ({
+      temp: f.main.temp,
+      title: formatTime(f.dt, offset, "ccc"),
+      icon: iconurl(f.weather[0].icon),
+      date: f.dt_txt,
     }));
 
-    return{hourly}
-}
+  return { hourly, daily };
+};
 
 const getFormat = async (searchParams) => {
   const formatData = await getApiWeatherData("weather", searchParams).then(
     formatCurrent
   );
-const {dt, lat , lon, timezone} = formatData;
-const formatForecast = await getApiWeatherData('forecast', {lat, lon, units: searchParams.units,}).then
-(d => formatForecast(dt, timezone, d.list))
+  const { dt, lat, lon, timezone } = formatData;
+  const formatForecast = await getApiWeatherData("forecast", {
+    lat,
+    lon,
+    units: searchParams.units,
+  }).then((d) => formatWeather(dt, timezone, d.list));
 
-  return { ...formatData, ...formatWeather };
+  return { ...formatData, ...formatForecast };
 };
-
 
 export default getFormat;

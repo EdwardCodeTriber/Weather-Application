@@ -15,6 +15,10 @@ function App() {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
   const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9`;
+  const [units , setUnits] = useState("metric");
+  const [weather , setWeather] = useState(null);
+
+
 
   const [activetheme, setActiveTheme] = useState("");
   const handleTheme = (theme) => {
@@ -34,7 +38,9 @@ function App() {
 
   /////////////////////////
   const getWeather = async () => {
-    const data = await getFormat({ q: "Soweto" });
+      await getFormat({ q: "Soweto" }).then((data) =>{
+        setWeather(data);
+      })
     console.log(data);
   };
 
