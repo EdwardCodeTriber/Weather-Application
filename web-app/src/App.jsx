@@ -7,14 +7,18 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
-import getApiWeatherData from "./service/weatherservice";
-import getFormat from "./service/weatherservice";
+// import getApiWeatherData from "./service/weatherservice";
+// import getFormat from "./service/weatherservice";
 
 function App() {
   //usestates to hold data on searched location
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9`;
+  const [isFahrenheit, setIsFahrenheit] = useState(false);
+
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9&units=${
+    isFahrenheit ? "imperial" : "metric"
+  }`;
   const [units , setUnits] = useState("metric");
   const [weather , setWeather] = useState(null);
 
@@ -26,15 +30,15 @@ function App() {
     setActiveTheme(theme);
   };
 
-  const themes = [
-    { theme: "Blue.jpg" },
-    { theme: "clear.jpg" },
-    { theme: "Blue.jpg" },
-    { theme: "grass.jpg" },
-    { theme: "mist.jpg" },
-    { theme: "rain.jpg" },
-    { theme: "snow.jpg" },
-  ];
+  // const themes = [
+  //   { theme: "Blue.jpg" },
+  //   { theme: "clear.jpg" },
+  //   { theme: "Blue.jpg" },
+  //   { theme: "grass.jpg" },
+  //   { theme: "mist.jpg" },
+  //   { theme: "rain.jpg" },
+  //   { theme: "snow.jpg" },
+  // ];
 
   /////////////////////////
   const getWeather = async () => {
@@ -75,7 +79,7 @@ function App() {
             background: "rgba(80, 80, 80, 0.8)",
           }}
         >
-          <IconButton sx={{ p: "10px" }} aria-label="menu">
+          {/* <IconButton sx={{ p: "10px" }} aria-label="menu">
             {themes.map(({ theme }) => {
               <span
                 key={theme}
@@ -85,7 +89,7 @@ function App() {
               ></span>;
             })}
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <InputBase
             sx={{ ml: 1, flex: 1, color: "white" }}
             placeholder="Search location"
