@@ -15,13 +15,13 @@ function App() {
   //usestates to hold data on searched location
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
+  const [hourly, setHourly] = useState("")
   const [isFahrenheit, setIsFahrenheit] = useState(false);
 
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9&units=${
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&forcast?q=${location}&units=imperial&appid=b1b5d2a308750daddd759c02fe1ed6d9&units=${
     isFahrenheit ? "imperial" : "metric"
   }`;
-  const [units, setUnits] = useState("metric");
-  const [weather, setWeather] = useState(null);
+
 
   const fetchWeather = async (location) => {
     const url = await fetch(
@@ -95,7 +95,7 @@ function App() {
                 {data.main.temp}°{isFahrenheit ? "F" : "C"}
               </h1>
             ) : null}
-            {data.timezone ? <p>{data.timezone}</p> : null}
+            {/* {data.timezone ? <p>{data.timezone}</p> : null} */}
             {data.main ? (
               <Switch
                 checked={isFahrenheit}
